@@ -22,6 +22,12 @@ export default async function LogMasukPage({
         <LoginForm redirectTo={redirect ?? "/akaun"} />
       </div>
 
+      <p className="mt-4 text-center text-sm">
+        <Link href="/lupa-kata-laluan" className="font-semibold text-brand-600 hover:underline">
+          Lupa kata laluan?
+        </Link>
+      </p>
+
       <p className="mt-6 text-center text-sm text-brand-900/70">
         Belum ada akaun?{" "}
         <Link href="/cipta-akaun" className="font-semibold text-brand-600 hover:underline">

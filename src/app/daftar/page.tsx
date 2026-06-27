@@ -67,10 +67,8 @@ export default async function DaftarPage() {
           sehingga {formatMalayDate(membership.validUntil)}.
         </p>
         <p className="mt-2 text-sm italic text-brand-900/70">
-          Anda akan menerima emel menyatakan kelulusan pendaftaran anda.
-        </p>
-        <p className="text-sm italic text-brand-900/70">
-          Sila periksa &quot;spam folder&quot; anda.
+          Akses penuh akan diaktifkan serta-merta selepas pembayaran berjaya —
+          tiada kelulusan manual diperlukan.
         </p>
       </div>
     </section>

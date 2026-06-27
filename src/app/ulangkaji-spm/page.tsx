@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { hasActiveMembership } from "@/lib/membership";
+import { ulangkajiModules } from "@/lib/ulangkaji-modules";
 
 export const metadata: Metadata = {
   title: "Ulangkaji SPM",
@@ -59,7 +60,6 @@ export default async function UlangkajiSpmPage() {
   const isMember = user ? await hasActiveMembership(supabase, user.id) : false;
 
   const visibleIds = isMember ? videoIds : videoIds.slice(0, PREVIEW_COUNT);
-  const lockedCount = videoIds.length - visibleIds.length;
 
   return (
     <>
@@ -97,18 +97,32 @@ export default async function UlangkajiSpmPage() {
         {!isMember && (
           <div className="mt-12 rounded-2xl bg-brand-900 px-8 py-10 text-center text-white">
             <h2 className="text-xl font-bold">
-              {lockedCount} Lagi Video Menanti Anda!
+              Sila Daftar Untuk Mendapatkan Akses Sepenuhnya Kepada Video-video
+              Soalan SPM Tahun Lepas
             </h2>
-            <p className="mt-2 text-brand-100">
-              Daftar sebagai Ahli SPMFokus untuk akses penuh kepada semua video
-              ulangkaji.
-            </p>
             <Link
               href="/daftar"
               className="mt-6 inline-block rounded-lg bg-accent-400 px-8 py-3 font-bold text-brand-900 hover:bg-accent-500"
             >
               Daftar Di Sini
             </Link>
+          </div>
+        )}
+
+        {isMember && (
+          <div className="mt-12">
+            <h2 className="text-xl font-bold text-brand-900">Modul Tambahan</h2>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              {ulangkajiModules.map((mod) => (
+                <Link
+                  key={mod.slug}
+                  href={`/ulangkaji-spm/${mod.slug}`}
+                  className="rounded-xl border border-brand-100 px-6 py-4 font-semibold text-brand-900 hover:bg-brand-50"
+                >
+                  {mod.title}
+                </Link>
+              ))}
+            </div>
           </div>
         )}
       </section>

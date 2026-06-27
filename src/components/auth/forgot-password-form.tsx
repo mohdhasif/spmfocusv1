@@ -22,10 +22,11 @@ export function ForgotPasswordForm() {
     setLoading(false);
 
     if (resetError) {
+      console.error("Password reset failed:", resetError.message);
       setError(
         resetError.message.toLowerCase().includes("rate limit")
           ? "Terlalu banyak percubaan e-mel dalam masa singkat. Sila cuba semula selepas beberapa minit."
-          : `Gagal menghantar pautan: ${resetError.message}`,
+          : "Gagal menghantar pautan. Sila cuba semula.",
       );
       return;
     }

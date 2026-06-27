@@ -32,12 +32,13 @@ export function SignupForm() {
     setLoading(false);
 
     if (signUpError) {
+      console.error("Signup failed:", signUpError.message);
       setError(
         signUpError.message.includes("already registered")
           ? "E-mel ini telah didaftarkan. Sila log masuk."
           : signUpError.message.toLowerCase().includes("rate limit")
             ? "Terlalu banyak percubaan e-mel dalam masa singkat. Sila cuba semula selepas beberapa minit."
-            : `Pendaftaran gagal: ${signUpError.message}`,
+            : "Pendaftaran gagal. Sila cuba semula.",
       );
       return;
     }

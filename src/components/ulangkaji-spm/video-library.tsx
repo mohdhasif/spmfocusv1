@@ -4,6 +4,8 @@ import { useState } from "react";
 import { LockIcon } from "@/components/ulangkaji-spm/lock-icon";
 import { RegisterModal } from "@/components/ulangkaji-spm/register-modal";
 
+const PAGE_SIZE = 9;
+
 export function VideoLibrary({
   videoIds,
   previewCount,
@@ -16,11 +18,15 @@ export function VideoLibrary({
   hasUser: boolean;
 }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(Math.min(PAGE_SIZE, videoIds.length));
+
+  const visibleIds = videoIds.slice(0, visibleCount);
+  const remaining = videoIds.length - visibleCount;
 
   return (
     <>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {videoIds.map((id, index) => {
+        {visibleIds.map((id, index) => {
           const locked = !isMember && index >= previewCount;
 
           return (
@@ -49,6 +55,18 @@ export function VideoLibrary({
           );
         })}
       </div>
+
+      {remaining > 0 && (
+        <div className="mt-8 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setVisibleCount((count) => Math.min(count + PAGE_SIZE, videoIds.length))}
+            className="rounded-lg border border-brand-200 px-8 py-3 font-semibold text-brand-900 hover:bg-brand-50"
+          >
+            Lihat Lagi ({remaining} Video Lagi)
+          </button>
+        </div>
+      )}
 
       <RegisterModal open={modalOpen} onClose={() => setModalOpen(false)} hasUser={hasUser} />
     </>

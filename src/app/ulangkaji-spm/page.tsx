@@ -1,9 +1,9 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { hasActiveMembership } from "@/lib/membership";
 import { ulangkajiModules } from "@/lib/ulangkaji-modules";
 import { VideoLibrary } from "@/components/ulangkaji-spm/video-library";
+import { ModuleList } from "@/components/ulangkaji-spm/module-list";
 
 export const metadata: Metadata = {
   title: "Ulangkaji SPM",
@@ -84,22 +84,14 @@ export default async function UlangkajiSpmPage() {
           hasUser={Boolean(user)}
         />
 
-        {isMember && (
-          <div className="mt-12">
-            <h2 className="text-xl font-bold text-brand-900">Modul Tambahan</h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              {ulangkajiModules.map((mod) => (
-                <Link
-                  key={mod.slug}
-                  href={`/ulangkaji-spm/${mod.slug}`}
-                  className="rounded-xl border border-brand-100 px-6 py-4 font-semibold text-brand-900 hover:bg-brand-50"
-                >
-                  {mod.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        <div className="mt-12">
+          <h2 className="text-xl font-bold text-brand-900">Modul Tambahan</h2>
+          <ModuleList
+            modules={ulangkajiModules}
+            isMember={isMember}
+            hasUser={Boolean(user)}
+          />
+        </div>
       </section>
     </>
   );

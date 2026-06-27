@@ -73,6 +73,13 @@ export default async function UlangkajiSpmPage() {
           <p className="mt-1 font-semibold italic text-brand-600">
             Pelajar Lebih Cemerlang!
           </p>
+          <a
+            href="#modul-tambahan"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-brand-900/90"
+          >
+            Lompat Ke Modul Tambahan
+            <span aria-hidden="true">↓</span>
+          </a>
         </div>
       </section>
 
@@ -84,7 +91,7 @@ export default async function UlangkajiSpmPage() {
           hasUser={Boolean(user)}
         />
 
-        <div className="mt-12">
+        <div id="modul-tambahan" className="mt-12 scroll-mt-8">
           <h2 className="text-xl font-bold text-brand-900">Modul Tambahan</h2>
           <ModuleList
             modules={ulangkajiModules}

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { hasActiveMembership } from "@/lib/membership";
 import { ulangkajiModules } from "@/lib/ulangkaji-modules";
+import { VideoLibrary } from "@/components/ulangkaji-spm/video-library";
 
 export const metadata: Metadata = {
   title: "Ulangkaji SPM",
@@ -59,8 +60,6 @@ export default async function UlangkajiSpmPage() {
   const { data: { user } } = await supabase.auth.getUser();
   const isMember = user ? await hasActiveMembership(supabase, user.id) : false;
 
-  const visibleIds = isMember ? videoIds : videoIds.slice(0, PREVIEW_COUNT);
-
   return (
     <>
       <section className="bg-gradient-to-b from-brand-50 to-white">
@@ -78,36 +77,12 @@ export default async function UlangkajiSpmPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {visibleIds.map((id, index) => (
-            <div key={id} className="flex flex-col items-center gap-3">
-              <p className="font-semibold text-brand-900">Video Ulangkaji {index + 1}</p>
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-xl shadow-md">
-                <iframe
-                  src={`https://drive.google.com/file/d/${id}/preview`}
-                  className="h-full w-full"
-                  allow="autoplay"
-                  title={`Video Ulangkaji ${index + 1}`}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {!isMember && (
-          <div className="mt-12 rounded-2xl bg-brand-900 px-8 py-10 text-center text-white">
-            <h2 className="text-xl font-bold">
-              Sila Daftar Untuk Mendapatkan Akses Sepenuhnya Kepada Video-video
-              Soalan SPM Tahun Lepas
-            </h2>
-            <Link
-              href="/daftar"
-              className="mt-6 inline-block rounded-lg bg-accent-400 px-8 py-3 font-bold text-brand-900 hover:bg-accent-500"
-            >
-              Daftar Di Sini
-            </Link>
-          </div>
-        )}
+        <VideoLibrary
+          videoIds={videoIds}
+          previewCount={PREVIEW_COUNT}
+          isMember={isMember}
+          hasUser={Boolean(user)}
+        />
 
         {isMember && (
           <div className="mt-12">

@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { PasswordInput } from "@/components/auth/password-input";
 
 export function LoginForm({ redirectTo }: { redirectTo: string }) {
   const router = useRouter();
@@ -52,14 +53,7 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
         <label htmlFor="password" className="block text-sm font-medium text-brand-900">
           Kata Laluan
         </label>
-        <input
-          id="password"
-          type="password"
-          required
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-brand-100 px-4 py-2 focus:border-brand-600 focus:outline-none"
-        />
+        <PasswordInput id="password" value={password} onChange={setPassword} required />
       </div>
 
       {error && <p className="text-sm text-red-600">{error}</p>}

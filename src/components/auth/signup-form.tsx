@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { siteConfig } from "@/lib/site-config";
+import { PasswordInput } from "@/components/auth/password-input";
 
 export function SignupForm() {
   const [fullName, setFullName] = useState("");
@@ -32,10 +33,13 @@ export function SignupForm() {
     setLoading(false);
 
     if (signUpError) {
+      console.error("Signup failed:", signUpError.message);
       setError(
         signUpError.message.includes("already registered")
           ? "E-mel ini telah didaftarkan. Sila log masuk."
-          : "Pendaftaran gagal. Sila cuba semula.",
+          : signUpError.message.toLowerCase().includes("rate limit")
+            ? "Terlalu banyak percubaan e-mel dalam masa singkat. Sila cuba semula selepas beberapa minit."
+            : "Pendaftaran gagal. Sila cuba semula.",
       );
       return;
     }
@@ -103,15 +107,7 @@ export function SignupForm() {
         <label htmlFor="password" className="block text-sm font-medium text-brand-900">
           Kata Laluan
         </label>
-        <input
-          id="password"
-          type="password"
-          required
-          minLength={6}
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          className="mt-1 w-full rounded-lg border border-brand-100 px-4 py-2 focus:border-brand-600 focus:outline-none"
-        />
+        <PasswordInput id="password" value={password} onChange={setPassword} required minLength={6} />
       </div>
 
       {error && (

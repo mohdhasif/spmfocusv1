@@ -4,6 +4,7 @@ import { hasActiveMembership } from "@/lib/membership";
 import { ulangkajiModules } from "@/lib/ulangkaji-modules";
 import { VideoLibrary } from "@/components/ulangkaji-spm/video-library";
 import { ModuleList } from "@/components/ulangkaji-spm/module-list";
+import { FloatingCta } from "@/components/ulangkaji-spm/floating-cta";
 
 export const metadata: Metadata = {
   title: "Ulangkaji SPM",
@@ -73,6 +74,16 @@ export default async function UlangkajiSpmPage() {
           <p className="mt-1 font-semibold italic text-brand-600">
             Pelajar Lebih Cemerlang!
           </p>
+          <p className="mt-4 inline-block rounded-full bg-accent-400/20 px-4 py-1 text-sm font-semibold text-brand-900">
+            {PREVIEW_COUNT} Percuma Daripada {videoIds.length} Video
+          </p>
+          <a
+            href="#modul-tambahan"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-brand-900/90"
+          >
+            Lompat Ke Modul Tambahan
+            <span aria-hidden="true">↓</span>
+          </a>
         </div>
       </section>
 
@@ -84,7 +95,7 @@ export default async function UlangkajiSpmPage() {
           hasUser={Boolean(user)}
         />
 
-        <div className="mt-12">
+        <div id="modul-tambahan" className="mt-12 scroll-mt-8">
           <h2 className="text-xl font-bold text-brand-900">Modul Tambahan</h2>
           <ModuleList
             modules={ulangkajiModules}
@@ -93,6 +104,8 @@ export default async function UlangkajiSpmPage() {
           />
         </div>
       </section>
+
+      {!isMember && <FloatingCta hasUser={Boolean(user)} />}
     </>
   );
 }
